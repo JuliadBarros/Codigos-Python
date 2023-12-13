@@ -1,19 +1,7 @@
 import random
 
-contador_de_partidas = 0
-vitorias = 0
-derrotas = 0
-empates = 0
 
-while True:
-    opcoes = {
-        "Pe": "Pedra",
-        "Pa": "Papel",
-        "Te": "Tesoura"
-    }
-
-    escolha_computador = random.choice(list(opcoes.values()))
-
+def mostra_menu():
     print("======== Jokenpô ========\n"
           "Pe - Pedra\n"
           "Pa - Papel\n"
@@ -21,6 +9,13 @@ while True:
           "Ex - Sair")
     print("-------------------------")
 
+
+def pega_escolha_usuario_computador(opcoes):
+    # O computador não pode sortear Ex, então criamos um novo dicionário onde Ex não existe
+    opcoes_sem_ex = {key: valor for key, valor in opcoes.items() if key != "Ex"}
+    escolha_computador = random.choice(list(opcoes_sem_ex.values()))
+
+    # Verificação e tratamento de entrada digitada pelo usuário
     while True:
         escolha_usuario = str(input("Faça sua jogada: ")).strip().title()[:2]
         if not escolha_usuario.isalpha() or escolha_usuario not in opcoes.keys():
@@ -29,66 +24,78 @@ while True:
         else:
             break
 
+    escolha_usario_computador = (escolha_computador, escolha_usuario)
+
+    return escolha_usario_computador
+
+
+def mostra_resultado():
     print("-------------------------")
     print("======= Resultado =======")
+    print("-------------------------")
 
-    # Pedra
-    if escolha_usuario == "Pe":
-        if escolha_computador == "Pedra":
-            empates += 1
-            print(f"Você: {opcoes[escolha_usuario]}\n"
-                  f"PC: {escolha_computador}\n-> Empate!")
-        elif escolha_computador == "Papel":
-            derrotas += 1
-            print(f"Você: {opcoes[escolha_usuario]}\n"
-                  f"PC: {escolha_computador}\n-> Perdeu!")
-        elif escolha_computador == "Tesoura":
-            vitorias += 1
-            print(f"Você: {opcoes[escolha_usuario]}\n"
-                  f"PC: {escolha_computador}\n-> Ganhou!")
 
-    # Papel
-    elif escolha_usuario == "Pa":
-        if escolha_computador == "Pedra":
-            vitorias += 1
-            print(f"Você: {opcoes[escolha_usuario]}\n"
-                  f"PC: {escolha_computador}\n-> Ganhou!")
-        elif escolha_computador == "Papel":
-            empates += 1
-            print(f"Você: {opcoes[escolha_usuario]}\n"
-                  f"PC: {escolha_computador}\n-> Empate!")
-        elif escolha_computador == "Tesoura":
-            derrotas += 1
-            print(f"Você: {opcoes[escolha_usuario]}\n"
-                  f"PC: {escolha_computador}\n-> Perdeu!")
+def verifica_partida(escolha_usario_computador, opcoes, placar):
+    # escolha_usario_computador é uma tupla onde o 1° valor é a escolha do usuário, 2° valor é a escolha do computador
+    escolha_computador = escolha_usario_computador[0]
+    escolha_usuario = escolha_usario_computador[1]
 
-    # Tesoura
-    elif escolha_usuario == "Te":
-        if escolha_computador == "Pedra":
-            derrotas += 1
-            print(f"Você: {opcoes[escolha_usuario]}\n"
-                  f"PC: {escolha_computador}\n-> Perdeu!")
-        elif escolha_computador == "Papel":
-            vitorias += 1
-            print(f"Você: {opcoes[escolha_usuario]}\n"
-                  f"PC: {escolha_computador}\n-> Ganhou!")
-        elif escolha_computador == "Tesoura":
-            empates += 1
-            print(f"Você: {opcoes[escolha_usuario]}\n"
-                  f"PC: {escolha_computador}\n-> Empate!")
+    mostra_resultado()
+
+    print(f"Você: {opcoes[escolha_usuario]}\n"
+          f"PC: {escolha_computador}")
 
     # Saindo do jogo
-    elif escolha_usuario == "Ex":
+    if escolha_usuario == "Ex":
         print("Fim de Jogo!")
-        print("===== Placar do jogo =====\n"
-              f"Rodadas Jogadas: {contador_de_partidas}\n"
-              f"Vitórias: {vitorias}\n"
-              f"Empates: {empates}\n"
-              f"Derrotas: {derrotas}\n"
-              f"=========================")
+        mostra_placar(placar)
+    # Empatando o jogo
+    elif escolha_usuario == escolha_computador:
+        placar["Empates"] += 1
+        print(" -> Deu Empate!")
+    # Todos os casos de vitória
+    elif (opcoes[escolha_usuario] == "Pedra" and escolha_computador == "Tesoura") or \
+            (opcoes[escolha_usuario] == "Papel" and escolha_computador == "Pedra") or \
+            (opcoes[escolha_usuario] == "Tesoura" and escolha_computador == "Papel"):
+        placar["Vitorias"] += 1
+        print(" -> Você Ganhou!")
+    # Se não der nenhum, então perdeu
+    else:
+        placar["Derrotas"] += 1
+        print(" -> Você Perdeu!")
 
+    placar["Partidas"] += 1
+
+
+def mostra_placar(placar):
+    print("===== Placar do jogo =====\n"
+          f"Rodadas Jogadas: {placar['Partidas']}\n"
+          f"Vitórias: {placar['Vitorias']}\n"
+          f"Empates: {placar['Empates']}\n"
+          f"Derrotas: {placar['Derrotas']}\n"
+          f"=========================")
+
+
+# Configurações globais do jogo
+opcoes_de_jogo = {
+    "Pe": "Pedra",
+    "Pa": "Papel",
+    "Te": "Tesoura",
+    "Ex": "Sair"
+}
+placar_inicial = {
+    "Partidas": 0,
+    "Vitorias": 0,
+    "Empates": 0,
+    "Derrotas": 0
+}
+
+# Rodando o jogo
+while True:
+    mostra_menu()
+    escolha_usuario_computador = pega_escolha_usuario_computador(opcoes_de_jogo)
+
+    verifica_partida(escolha_usuario_computador, opcoes_de_jogo, placar_inicial)
+
+    if escolha_usuario_computador[1] == "Ex":
         break
-
-    print("-------------------------")
-    contador_de_partidas += 1
-

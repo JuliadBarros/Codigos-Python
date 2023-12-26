@@ -1,5 +1,5 @@
 import random
-
+import os
 
 def mostra_menu():
     print("======== Jokenpô ========\n"
@@ -76,26 +76,29 @@ def mostra_placar(placar):
           f"=========================")
 
 
-# Configurações globais do jogo
-opcoes_de_jogo = {
-    "Pe": "Pedra",
-    "Pa": "Papel",
-    "Te": "Tesoura",
-    "Ex": "Sair"
-}
-placar_inicial = {
-    "Partidas": 0,
-    "Vitorias": 0,
-    "Empates": 0,
-    "Derrotas": 0
-}
+def jogar():
+    os.system('cls')
 
-# Rodando o jogo
-while True:
-    mostra_menu()
-    escolha_usuario_computador = pega_escolha_usuario_computador(opcoes_de_jogo)
+    # Configurações globais do jogo
+    opcoes_de_jogo = {
+        "Pe": "Pedra",
+        "Pa": "Papel",
+        "Te": "Tesoura",
+        "Ex": "Sair"
+    }
+    placar_inicial = {
+        "Partidas": 0,
+        "Vitorias": 0,
+        "Empates": 0,
+        "Derrotas": 0
+    }
 
-    verifica_partida(escolha_usuario_computador, opcoes_de_jogo, placar_inicial)
+    # Rodando o jogo
+    while True:
+        mostra_menu()
+        escolha_usuario_computador = pega_escolha_usuario_computador(opcoes_de_jogo)
 
-    if escolha_usuario_computador[1] == "Ex":
-        break
+        verifica_partida(escolha_usuario_computador, opcoes_de_jogo, placar_inicial)
+
+        if escolha_usuario_computador[1] == "Ex":
+            break

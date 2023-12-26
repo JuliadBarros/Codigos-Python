@@ -1,3 +1,6 @@
+import os
+
+
 # Será responsável apenar por exibir o tabuleiro atual na tela a cada jogada
 def exibe_tabuleiro(tabuleiro_atualizado):
     print("-----------------")
@@ -51,6 +54,8 @@ def jogar():
     pontuacao_x = 0
 
     while True:
+        os.system('cls')
+
         tabuleiro = [[1, 2, 3],
                      [4, 5, 6],
                      [7, 8, 9]]
@@ -86,9 +91,8 @@ def jogar():
         opcao = str(input("Deseja jogar outra partida? [S/N]: ")).strip().upper()[:1]
 
         if opcao == "N":
+            os.system('cls')
+
             print(f"- x - ganhou {pontuacao_x}")
             print(f"- O - ganhou {pontuacao_0}")
             break
-
-
-jogar()

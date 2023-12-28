@@ -1,3 +1,4 @@
+# Fazendo a importação dos outros códigos
 from JogodaVelha import JogoVelha
 from JogoJokenpo import Jokenpo
 
@@ -22,10 +23,10 @@ def verifica_entrada_usuario():
 
 
 def escolhendo_jogo():
-
     exibe_menu()
     escolha_usuario = verifica_entrada_usuario()
 
+    # Iniciando o jogo a partir da opção que foi escolhida
     if escolha_usuario == "1":
         Jokenpo.jogar()
         return escolhendo_jogo()

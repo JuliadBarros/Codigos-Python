@@ -1,5 +1,7 @@
 import random
 import os
+from time import sleep
+
 
 def mostra_menu():
     print("======== Jokenpô ========\n"
@@ -30,6 +32,14 @@ def pega_escolha_usuario_computador(opcoes):
 
 
 def mostra_resultado():
+    # limpa terminal a cada partida e faz uma pequena animação antes de mostrar o resultado
+    os.system('cls')
+    print("Jo...", end="")
+    sleep(1)
+    print("ken...", end="")
+    sleep(1)
+    print("pô")
+    sleep(0.5)
     print("-------------------------")
     print("======= Resultado =======")
     print("-------------------------")
@@ -40,17 +50,20 @@ def verifica_partida(escolha_usario_computador, opcoes, placar):
     escolha_computador = escolha_usario_computador[0]
     escolha_usuario = escolha_usario_computador[1]
 
+    # Saindo do jogo
+    if escolha_usuario == "Ex":
+        print("Fim de Jogo!")
+        mostra_placar(placar)
+
+        return
+
     mostra_resultado()
 
     print(f"Você: {opcoes[escolha_usuario]}\n"
           f"PC: {escolha_computador}")
 
-    # Saindo do jogo
-    if escolha_usuario == "Ex":
-        print("Fim de Jogo!")
-        mostra_placar(placar)
     # Empatando o jogo
-    elif escolha_usuario == escolha_computador:
+    if escolha_usuario == escolha_computador:
         placar["Empates"] += 1
         print(" -> Deu Empate!")
     # Todos os casos de vitória

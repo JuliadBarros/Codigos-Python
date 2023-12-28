@@ -54,6 +54,7 @@ def jogar():
     pontuacao_x = 0
 
     while True:
+        # Limpar o terminal a cada jogo
         os.system('cls')
 
         tabuleiro = [[1, 2, 3],

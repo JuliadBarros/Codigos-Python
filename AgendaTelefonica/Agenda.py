@@ -3,7 +3,6 @@ from time import sleep
 
 
 def exibe_menu():
-    os.system('cls')
     print("\n===== Agenda telefonica =====")
     print("ad - Adicionar  contato\n"
           "ap - Apagar contato\n"
@@ -14,12 +13,19 @@ def exibe_menu():
 
 
 def adiciona_contato():
-    print("====== Novo contato ======")
+    # Se tentar digitar outro tipo de dado, vai dar ValueError
+    try:
+        print("====== Novo contato ======")
 
-    # Adicionando os dados a um dicionário
-    nome = str(input("Nome do contato: ")).strip()
-    tel = int(input("Telefone: "))
-    email = str(input("E-mail: ")).strip()
+        # Adicionando os dados a um dicionário
+        nome = str(input("Nome do contato: ")).strip()
+        tel = int(input("Telefone: "))
+        email = str(input("E-mail: ")).strip()
+    except ValueError:
+        os.system('cls')
+
+        print("\n>>> Dados inválidos! Tente novamente\n")
+        return adiciona_contato()
 
     contato = {
         'Nome': nome,
@@ -46,6 +52,7 @@ def adiciona_contato():
             os.system('cls')
             return adiciona_contato()
         elif opcao == "vl":
+            os.system('cls')
             break
         else:
             print("Opção inválida!")
@@ -68,7 +75,7 @@ def apaga_contato(contatos):
 
             del contatos[i]
             sleep(1)
-            
+
             break
     else:
         print("\n>>> Contato não encontrado!\n")
@@ -79,6 +86,9 @@ def exibe_lista_contatos(contatos):
     if not contatos:
         print("\nSem contatos salvo!\n")
 
+        return
+
+    # Para printar todos os contatos e seus respectivos dados
     for contador in range(0, len(contatos)):
         print(f"===== Contato {contador+1} =====")
         print(f"Nome: {contatos[contador]['Nome']}")

@@ -51,7 +51,29 @@ def adiciona_contato():
             print("Opção inválida!")
 
 
-# def apaga_contato():
+def apaga_contato(contatos):
+    print("====== Excluir contato ======")
+
+    nome_excluir = str(input("Digite o nome do contato que deseja excluir: ")).strip()
+    contato_encontrado = False
+    contador = 0  # Para corrigir a warner de 'Local variable 'contador' might be referenced before assignme'
+
+    # Verificar cada nome na lista
+    for contador in range(0, len(contatos)):
+        if nome_excluir == contatos[contador]['Nome']:
+            contato_encontrado = True
+            break
+
+    # Verficação para ver se encotrou o nome na lista
+    if contato_encontrado:
+        # Imprimir a mensagem antes de excluir o contato para não gerar IndexError
+        print(f"\n>>> {contatos[contador]['Nome']} foi excluido dos contatos !\n")
+        del contatos[contador]
+
+        sleep(1)
+        return
+    else:
+        print("\n>>>Contato não encontrado!\n")
 
 
 def exibe_lista_contatos(contatos):
@@ -67,13 +89,17 @@ def exibe_lista_contatos(contatos):
         print("--------------------")
 
 
-# def pesquisar_contato():
+def pesquisar_contato(contatos):
+    print("====== Pesquisar contato ======")
+
+    procura_nome = str(input("Digite o nome do contato que deseja procurar: ")).strip()
 
 
 todos_contatos = []
 
 while True:
     exibe_menu()
+
     escolha_menu = str(input("Selecione: "))
     print("-----------------------------")
     print(escolha_menu)
@@ -82,12 +108,11 @@ while True:
     if escolha_menu == "ad":
         adiciona_contato()
     elif escolha_menu == "ap":
-        pass
+        apaga_contato(todos_contatos)
     elif escolha_menu == "vc":
-        print("entrou")
         exibe_lista_contatos(todos_contatos)
     elif escolha_menu == "ps":
-        pass
+        pesquisar_contato(todos_contatos)
     elif escolha_menu == "ex":
         break
     else:

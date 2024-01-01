@@ -54,26 +54,24 @@ def adiciona_contato():
 def apaga_contato(contatos):
     print("====== Excluir contato ======")
 
-    nome_excluir = str(input("Digite o nome do contato que deseja excluir: ")).strip()
-    contato_encontrado = False
-    contador = 0  # Para corrigir a warner de 'Local variable 'contador' might be referenced before assignme'
+    # Verificando se tem algum contato salvo na lista, se não tiver, não temos como excluir o contato
+    if not contatos:
+        print("\nSem contatos salvo!\n")
 
-    # Verificar cada nome na lista
-    for contador in range(0, len(contatos)):
-        if nome_excluir == contatos[contador]['Nome']:
-            contato_encontrado = True
-            break
-
-    # Verficação para ver se encotrou o nome na lista
-    if contato_encontrado:
-        # Imprimir a mensagem antes de excluir o contato para não gerar IndexError
-        print(f"\n>>> {contatos[contador]['Nome']} foi excluido dos contatos !\n")
-        del contatos[contador]
-
-        sleep(1)
         return
+
+    nome_excluir = str(input("Digite o nome do contato que deseja excluir: ")).strip().lower()
+
+    for i, contato in enumerate(contatos):
+        if nome_excluir == contato['Nome'].lower():
+            print(f"\n>>> {contato['Nome']} foi excluído dos contatos !\n")
+
+            del contatos[i]
+            sleep(1)
+            
+            break
     else:
-        print("\n>>>Contato não encontrado!\n")
+        print("\n>>> Contato não encontrado!\n")
 
 
 def exibe_lista_contatos(contatos):
@@ -89,10 +87,35 @@ def exibe_lista_contatos(contatos):
         print("--------------------")
 
 
+# Ficou bem parecido com a função de excluir contato, seguindo a mesma lógica
 def pesquisar_contato(contatos):
     print("====== Pesquisar contato ======")
 
+    # Verificando se tem algum contato salvo na lista, se não tiver, não temos como pesquisar o contato
+    if not contatos:
+        print("\nSem contatos salvo!\n")
+
+        return
+
     procura_nome = str(input("Digite o nome do contato que deseja procurar: ")).strip()
+    contato_encontrado = False
+
+    # Vai percorrer por cada contato (com o nome, telefone e email)
+    for contato in contatos:
+        if procura_nome.lower() == contato['Nome'].lower():
+            print(f"\n>>>Contato encontrado!\n"
+                  f"\nNome: {contato['Nome']}\n"
+                  f"Telefone: {contato['Telefone']}\n"
+                  f"E-mail: {contato['E-mail']}")
+
+            contato_encontrado = True
+            break
+
+    # Se contato_encontrado for falso
+    if not contato_encontrado:
+        print("\n>>>Contato não existe!\n")
+
+    sleep(1)
 
 
 todos_contatos = []

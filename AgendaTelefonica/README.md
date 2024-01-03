@@ -7,10 +7,10 @@ Uma agenda onde pode ser armazenado Nome, Telefone e E-mail de vários contatos.
 ## 📋 Funcionalidades
 - Adicionar um novo contato
 - Listar todos os contatos já criados
-
-## 🛠 Futuras atualizações
-- Exclução de um contato criado
+- Exclusão de um contato criado
 - Pesquisar contato específico pelo nome
+  
+## 🛠 Futuras atualizações
 - Armazenamento em um arquvivo (guardar os contatos mesmo depois de encerrar o programa)
 
 ## 🛠 Tecnologias

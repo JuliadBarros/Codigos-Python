@@ -12,20 +12,29 @@ def exibe_menu():
     print("-----------------------------")
 
 
-def adiciona_contato():
+def adiciona_contato(contatos):
     # Se tentar digitar outro tipo de dado, vai dar ValueError
     try:
         print("====== Novo contato ======")
 
         # Adicionando os dados a um dicionário
         nome = str(input("Nome do contato: ")).strip()
+
+        # Verificando para não permitir adicionar um contato com mesmo nome
+        for contato in contatos:
+            if nome.lower() == contato['Nome'].lower():
+                print(f"\n>>> Contato já existente! Salve com outro nome!\n")
+
+                return adiciona_contato(todos_contatos)
+
         tel = int(input("Telefone: "))
         email = str(input("E-mail: ")).strip()
     except ValueError:
         os.system('cls')
 
         print("\n>>> Dados inválidos! Tente novamente\n")
-        return adiciona_contato()
+
+        return adiciona_contato(todos_contatos)
 
     contato = {
         'Nome': nome,
@@ -50,7 +59,7 @@ def adiciona_contato():
         if opcao == "ad":
             # limpar terminal antes de chamar a função adiciona_contato() novamente
             os.system('cls')
-            return adiciona_contato()
+            return adiciona_contato(todos_contatos)
         elif opcao == "vl":
             os.system('cls')
             break
@@ -139,7 +148,7 @@ while True:
 
     # Verificando o que o usuário quer fazer
     if escolha_menu == "ad":
-        adiciona_contato()
+        adiciona_contato(todos_contatos)
     elif escolha_menu == "ap":
         apaga_contato(todos_contatos)
     elif escolha_menu == "vc":
